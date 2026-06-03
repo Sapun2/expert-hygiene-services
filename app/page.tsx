@@ -1,65 +1,107 @@
-import Image from "next/image";
+import Hero from "@/components/sections/Hero";
+import TrustBar from "@/components/sections/TrustBar";
+import MultiStepForm from "@/components/forms/MultiStepForm";
+import ServicesGrid from "@/components/sections/ServicesGrid";
+import WhyChooseUs from "@/components/sections/WhyChooseUs";
+import Testimonials from "@/components/sections/Testimonials";
+import SydneyMap from "@/components/sections/SydneyMap";
+import FAQSection from "@/components/sections/FAQSection";
+import CTASection from "@/components/sections/CTASection";
+import { Phone, Star } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/utils";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <Hero badge="20% Off First Service" />
+      <TrustBar />
+
+      {/* ── FORM — immediately after hero ── */}
+      <section className="py-10 md:py-16 bg-white" id="quote">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 items-start">
+
+            {/* Left — value props (hidden on mobile to keep form first) */}
+            <div className="hidden lg:block lg:col-span-2 sticky top-28">
+              <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-4">Free Quote</p>
+              <h2 className="font-display font-800 text-4xl text-navy mb-4 leading-tight">
+                Get a Quote<br />in 2 Minutes
+              </h2>
+              <p className="text-slate-500 text-sm leading-relaxed mb-7">
+                3 simple steps. No phone tag. We confirm pricing within 2 hours and can book same day.
+              </p>
+
+              {/* Social proof */}
+              <div className="flex items-center gap-3 mb-7 p-4 bg-slate-50 rounded-2xl">
+                <div className="flex -space-x-2">
+                  {["J", "S", "M", "P"].map((l, i) => (
+                    <div key={i} className="w-9 h-9 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center border-2 border-white">{l}</div>
+                  ))}
+                </div>
+                <div>
+                  <div className="flex gap-0.5 mb-0.5">
+                    {[...Array(5)].map((_, i) => <Star key={i} size={12} className="text-gold-500 fill-gold-500" />)}
+                  </div>
+                  <p className="text-slate-600 text-xs"><strong>120+ Sydney clients</strong> trust us</p>
+                </div>
+              </div>
+
+              <ul className="space-y-3">
+                {[
+                  "Reply within 2 hours, 7 days a week",
+                  "20% off your first service",
+                  "Bond back guaranteed",
+                  "Same-day bookings available",
+                  "No hidden fees, ever",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-sm text-slate-700">
+                    <span className="w-5 h-5 rounded-full bg-teal-500/15 flex items-center justify-center flex-shrink-0">
+                      <span className="w-2 h-2 rounded-full bg-teal-500" />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-8 pt-6 border-t border-slate-100">
+                <p className="text-xs text-slate-400 mb-2">Prefer to call?</p>
+                <a href={SITE_CONFIG.phoneHref} className="inline-flex items-center gap-2 text-navy font-bold text-lg hover:text-teal-600 transition-colors">
+                  <Phone size={20} className="text-teal-500" />
+                  {SITE_CONFIG.phone}
+                </a>
+              </div>
+            </div>
+
+            {/* Right — the form */}
+            <div className="lg:col-span-3">
+              {/* Mobile heading */}
+              <div className="lg:hidden mb-6 text-center">
+                <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-2">Free Quote · No Obligation</p>
+                <h2 className="font-display font-800 text-2xl text-navy">Get your quote in 2 minutes</h2>
+              </div>
+
+              <div className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/60 p-6 md:p-8">
+                <MultiStepForm />
+              </div>
+
+              {/* Mobile trust */}
+              <div className="lg:hidden mt-4 flex items-center justify-center gap-2">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={12} className="text-gold-500 fill-gold-500" />)}
+                </div>
+                <p className="text-slate-500 text-xs">4.9 stars · 120+ Sydney clients</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+
+      <ServicesGrid />
+      <WhyChooseUs />
+      <Testimonials />
+      <SydneyMap />
+      <FAQSection />
+      <CTASection />
+    </>
   );
 }

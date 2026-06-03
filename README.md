@@ -1,6 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Expert Hygiene Services — Website
 
-## Getting Started
+Production-ready Next.js 16 website for Expert Hygiene Services, Sydney's premium cleaning specialists.
+
+**Live Domain:** experthygiene.com.au | **Phone:** 0468 070 392 | **Email:** accounts@experthygieneservices.com
+
+---
+
+## Quick Start
+
+```bash
+cp .env.local.example .env.local   # Add your RESEND_API_KEY
+npm install
+npm run dev                         # http://localhost:3000
+```
+
+## Pages
+
+Homepage, Curtain Cleaning, End of Lease Cleaning, Carpet Cleaning, Upholstery Cleaning, Mattress Cleaning, Commercial Cleaning, Pressure Washing, Tile Cleaning, About, Contact, Gallery, Thank You, Privacy Policy, Terms & Conditions, Sitemap.
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `RESEND_API_KEY` | Resend API key (resend.com) — required for contact form emails |
+
+## Deploy to Vercel
+
+1. Push to GitHub
+2. Import at vercel.com
+3. Add `RESEND_API_KEY` in Vercel environment variables
+4. Add custom domain `experthygiene.com.au`
+
+## Deploy to VPS
+
+```bash
+npm run build && npm start
+```
+Use PM2 + Nginx + Certbot for SSL. See full VPS guide below.
+
+## Brand Colors
+
+- Navy: `#002B5B` | Teal: `#00A6A6` | Gold: `#D4AF37`
+
+## Getting Started (Original)
 
 First, run the development server:
 
