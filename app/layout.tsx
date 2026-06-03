@@ -18,6 +18,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import FloatingCTA from "@/components/layout/FloatingCTA";
 import MobileBottomNav from "@/components/layout/MobileBottomNav";
+import ConditionalLayout from "@/components/layout/ConditionalLayout";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://experthygiene.com.au"),
@@ -133,11 +134,14 @@ export default function RootLayout({
         />
       </head>
       <body className={`min-h-full flex flex-col text-slate-900 ${inter.variable} ${montserrat.variable} pb-[64px] lg:pb-0`}>
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <FloatingCTA />
-        <MobileBottomNav />
+        <ConditionalLayout
+          navbar={<Navbar />}
+          footer={<Footer />}
+          floatingCta={<FloatingCTA />}
+          mobileNav={<MobileBottomNav />}
+        >
+          {children}
+        </ConditionalLayout>
       </body>
     </html>
   );
