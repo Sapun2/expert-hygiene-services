@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, ArrowLeft, CheckCircle2, Loader2, Phone, ClipboardList, Home, Layers, Sofa, Bed, Building2, Droplets, Grid3x3 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ArrowRight, ArrowLeft, CheckCircle2, Loader2, ClipboardList, Home, Layers, Sofa, Bed, Building2, Droplets, Grid3x3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const SERVICES = [
@@ -27,8 +28,8 @@ interface BookingFormProps {
 export default function BookingForm({ defaultService, variant = "light" }: BookingFormProps) {
   const hasPreset = Boolean(defaultService);
   const [step, setStep]       = useState<Step>(hasPreset ? 2 : 1);
+  const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
-  const [trackingId, setTrackingId] = useState<string | null>(null);
   const [error, setError]     = useState("");
 
   const [service,  setService]  = useState(defaultService || "");
@@ -64,7 +65,7 @@ export default function BookingForm({ defaultService, variant = "light" }: Booki
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed");
-      setTrackingId(data.id);
+      router.push("/thank-you");
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Something went wrong. Please call 0468 070 392.");
     } finally {
@@ -79,33 +80,6 @@ export default function BookingForm({ defaultService, variant = "light" }: Booki
     if (!address.trim()) return "Property address is required.";
     return null;
   };
-
-  // ── Success state ─────────────────────────────────────────────────────────
-  if (trackingId) {
-    return (
-      <div className="text-center py-4">
-        <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
-          <CheckCircle2 size={40} className="text-emerald-500" />
-        </div>
-        <h3 className={cn("font-display font-800 text-2xl mb-1", isDark ? "text-white" : "text-navy")}>
-          Booking Request Sent!
-        </h3>
-        <p className={cn("text-sm mb-6", isDark ? "text-white/60" : "text-slate-500")}>
-          We&apos;ll call you within <strong>2 hours</strong>. Our team will be in touch shortly.
-        </p>
-
-        <div className={cn("rounded-xl p-4 mb-5", isDark ? "bg-gold-500/20 border border-gold-500/30" : "bg-gold-50 border border-gold-200")}>
-          <p className={cn("text-sm font-bold", isDark ? "text-gold-300" : "text-gold-700")}>
-            🎉 20% off your first service — already applied!
-          </p>
-        </div>
-
-        <a href="tel:0468070392" className="inline-flex items-center justify-center gap-2 bg-teal-500 text-white font-bold py-3 px-6 rounded-xl text-sm hover:bg-teal-600 transition-colors w-full">
-          <Phone size={16} /> Prefer to call? 0468 070 392
-        </a>
-      </div>
-    );
-  }
 
   // ── Step indicator ────────────────────────────────────────────────────────
   const steps = hasPreset ? [2, 3] : [1, 2, 3];
