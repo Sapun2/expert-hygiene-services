@@ -39,6 +39,7 @@ export default function UpholsteryCleaningPage() {
         { title: "Stain & Spot Treatment", desc: "Targeted stain removal for wine, coffee, food, ink, grease and other stubborn marks." },
         { title: "Commercial Upholstery Cleaning", desc: "Office chairs, reception seating, restaurant booth seating and hotel furniture cleaning." },
       ]}
+      pageSlug="upholstery-cleaning"
       ctaTitle="Book Your Sofa Clean Today"
       ctaSubtitle="Free quotes, same-day available, 20% off first service. All Sydney suburbs."
     />

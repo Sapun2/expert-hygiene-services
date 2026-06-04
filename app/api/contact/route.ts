@@ -14,6 +14,27 @@ export async function POST(req: NextRequest) {
     // Save to database
     const submission = addSubmission({ name, email, phone, address, service, notes });
 
+    // Push to NTS CRM (fire-and-forget — never blocks the response)
+    const nameParts = name.trim().split(/\s+/);
+    fetch("https://nepalitechsupport.tech/api/booking", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": "crm_906acbb78f18df92c0358e69bee9c82368290fbd",
+      },
+      body: JSON.stringify({
+        first_name:    nameParts[0] ?? name,
+        last_name:     nameParts.slice(1).join(" "),
+        email,
+        phone,
+        address,
+        service_name:  service,
+        notes:         notes ?? "",
+        source:        "website",
+        source_domain: "experthygiene.com.au",
+      }),
+    }).catch((err) => console.error("NTS CRM push error:", err));
+
     // Send emails
     const settings = getMailSettings();
     if (settings.enabled && settings.apiKey) {

@@ -39,6 +39,7 @@ export default function TileCleaningPage() {
         { title: "Natural Stone Cleaning", desc: "Specialist cleaning for marble, limestone, travertine, slate and other natural stone surfaces." },
         { title: "Grout Sealing", desc: "Protect freshly cleaned grout with professional sealing to resist future staining and moisture ingress." },
       ]}
+      pageSlug="tile-cleaning"
       ctaTitle="Book Tile Cleaning Today"
       ctaSubtitle="Restore your tiles and grout. Sydney wide service. Free quotes."
     />

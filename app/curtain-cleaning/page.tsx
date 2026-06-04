@@ -32,6 +32,7 @@ export default function CurtainCleaningPage() {
         { title: "Hospital & Medical Curtains", desc: "Anti-bacterial cleaning meeting healthcare hygiene standards." },
         { title: "Curtain Odour Treatment", desc: "Deodorising for smoke, cooking smells or mould odour." },
       ]}
+      pageSlug="curtain-cleaning"
       ctaTitle="Book Your Curtain Clean Today"
       ctaSubtitle="Sydney-wide. Same-day available. 20% off first clean."
     />

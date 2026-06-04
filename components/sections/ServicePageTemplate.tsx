@@ -22,15 +22,57 @@ interface ServicePageProps {
   services: { title: string; desc: string }[];
   ctaTitle?: string;
   ctaSubtitle?: string;
+  pageSlug?: string;
+  faqs?: typeof FAQS;
 }
 
 export default function ServicePageTemplate({
   title, heroHeading, subtitle, heroImage, heroAlt,
-  breadcrumb, intro, features, galleryImages, services,
-  ctaTitle, ctaSubtitle,
+  breadcrumb, intro, introParagraph2, features, galleryImages, services,
+  ctaTitle, ctaSubtitle, pageSlug, faqs,
 }: ServicePageProps) {
+
+  const pageUrl = pageSlug
+    ? `https://experthygiene.com.au/${pageSlug}`
+    : `https://experthygiene.com.au`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://experthygiene.com.au" },
+      { "@type": "ListItem", position: 2, name: breadcrumb, item: pageUrl },
+    ],
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: title,
+    description: subtitle,
+    url: pageUrl,
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Expert Hygiene Services",
+      telephone: "+61468070392",
+      address: { "@type": "PostalAddress", addressLocality: "Sydney", addressRegion: "NSW", addressCountry: "AU" },
+    },
+    areaServed: { "@type": "City", name: "Sydney" },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: title,
+      itemListElement: services.map((s) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: s.title, description: s.desc },
+      })),
+    },
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+
       <Hero
         heading={heroHeading || breadcrumb}
         subheading={subtitle}
@@ -48,7 +90,7 @@ export default function ServicePageTemplate({
         </div>
       </div>
 
-      {/* ── BOOKING FORM — first section ── */}
+      {/* ── BOOKING FORM ── */}
       <section className="py-12 bg-white" id="quote">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
@@ -59,7 +101,10 @@ export default function ServicePageTemplate({
               <h2 className="font-display font-800 text-3xl lg:text-4xl text-navy mb-4 leading-tight">
                 {title}
               </h2>
-              <p className="text-slate-500 text-sm leading-relaxed mb-6">{intro}</p>
+              <p className="text-slate-500 text-sm leading-relaxed mb-4">{intro}</p>
+              {introParagraph2 && (
+                <p className="text-slate-500 text-sm leading-relaxed mb-6">{introParagraph2}</p>
+              )}
               <ul className="space-y-2.5 mb-6">
                 {features.map(f => (
                   <li key={f} className="flex items-center gap-3 text-slate-700 text-sm font-medium">
@@ -72,7 +117,7 @@ export default function ServicePageTemplate({
               </a>
             </div>
 
-            {/* Right — form with service pre-selected */}
+            {/* Right — form */}
             <div className="lg:col-span-3">
               <div className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/60 p-6 md:p-8">
                 <BookingForm defaultService={title} />
@@ -100,10 +145,14 @@ export default function ServicePageTemplate({
       {/* What we offer */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="font-display font-800 text-3xl text-navy mb-8">What We Offer</h2>
+          <h2 className="font-display font-800 text-3xl text-navy mb-3">What We Offer</h2>
+          <p className="text-slate-500 text-sm mb-8">Every {title.toLowerCase()} job is handled by our trained, insured specialists using commercial-grade equipment.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {services.map(s => (
-              <div key={s.title} className="bg-slate-50 rounded-xl p-6 border border-slate-100">
+              <div key={s.title} className="bg-slate-50 rounded-xl p-6 border border-slate-100 hover:border-teal-200 hover:bg-teal-50/30 transition-colors">
+                <div className="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
+                  <CheckCircle2 size={16} className="text-teal-600" />
+                </div>
                 <h3 className="font-bold text-navy mb-2 text-sm">{s.title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{s.desc}</p>
               </div>
@@ -113,7 +162,7 @@ export default function ServicePageTemplate({
       </section>
 
       <Testimonials />
-      <FAQSection />
+      <FAQSection faqs={faqs} />
       <CTASection title={ctaTitle} subtitle={ctaSubtitle} />
     </>
   );

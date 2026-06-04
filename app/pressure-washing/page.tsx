@@ -39,6 +39,7 @@ export default function PressureWashingPage() {
         { title: "Building Exterior Washing", desc: "Wash render, brick, cladding and external walls to remove grime, pollution, and biological growth." },
         { title: "Commercial Pressure Cleaning", desc: "Car parks, warehouse floors, shopping centre exteriors, and large-scale commercial pressure cleaning." },
       ]}
+      pageSlug="pressure-washing"
       ctaTitle="Book Pressure Washing Today"
       ctaSubtitle="Transform your property's exterior. Sydney wide service. Free quotes."
     />

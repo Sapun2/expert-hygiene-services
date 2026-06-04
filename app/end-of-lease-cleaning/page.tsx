@@ -32,6 +32,7 @@ export default function EndOfLeaseCleaningPage() {
         { title: "Window Cleaning (Interior)", desc: "All glass, frames, sills and tracks cleaned to standard." },
         { title: "Wall Spot Cleaning", desc: "Marks, scuffs and fingerprints removed from walls." },
       ]}
+      pageSlug="end-of-lease-cleaning"
       ctaTitle="Don't Risk Your Bond"
       ctaSubtitle="Book Sydney's most trusted bond cleaners. Guaranteed or we return free."
     />

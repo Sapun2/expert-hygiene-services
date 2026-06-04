@@ -1,12 +1,16 @@
 import Hero from "@/components/sections/Hero";
-import TrustBar from "@/components/sections/TrustBar";
+import TrustIconBar from "@/components/sections/TrustIconBar";
+import HowItWorks from "@/components/sections/HowItWorks";
 import BookingForm from "@/components/forms/BookingForm";
+import StatsBar from "@/components/sections/StatsBar";
 import ServicesGrid from "@/components/sections/ServicesGrid";
 import WhyChooseUs from "@/components/sections/WhyChooseUs";
+import BeforeAfterTeaser from "@/components/sections/BeforeAfterTeaser";
 import Testimonials from "@/components/sections/Testimonials";
-import SydneyMap from "@/components/sections/SydneyMap";
+import SuburbsSection from "@/components/sections/SuburbsSection";
 import FAQSection from "@/components/sections/FAQSection";
 import CTASection from "@/components/sections/CTASection";
+import ExitIntentPopup from "@/components/ui/ExitIntentPopup";
 import { Phone, Star } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/utils";
 
@@ -14,9 +18,10 @@ export default function Home() {
   return (
     <>
       <Hero badge="20% Off First Service" />
-      <TrustBar />
+      <TrustIconBar />
+      <HowItWorks />
 
-      {/* ── BOOKING FORM — first thing after trust bar ── */}
+      {/* ── BOOKING FORM ── */}
       <section className="py-10 md:py-16 bg-white" id="quote">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 items-start">
@@ -44,12 +49,12 @@ export default function Home() {
                 </div>
               </div>
               <ul className="space-y-3 mb-8">
-                {["Reply within 2 hours","20% off first service","Bond back guaranteed","Same-day bookings","No hidden fees"].map(i => (
-                  <li key={i} className="flex items-center gap-3 text-sm text-slate-700">
+                {["Reply within 2 hours","20% off first service","Bond back guaranteed","Same-day bookings","No hidden fees"].map(item => (
+                  <li key={item} className="flex items-center gap-3 text-sm text-slate-700">
                     <span className="w-5 h-5 rounded-full bg-teal-500/15 flex items-center justify-center flex-shrink-0">
                       <span className="w-2 h-2 rounded-full bg-teal-500" />
                     </span>
-                    {i}
+                    {item}
                   </li>
                 ))}
               </ul>
@@ -79,12 +84,15 @@ export default function Home() {
         </div>
       </section>
 
+      <StatsBar />
       <ServicesGrid />
       <WhyChooseUs />
+      <BeforeAfterTeaser />
       <Testimonials />
-      <SydneyMap />
+      <SuburbsSection />
       <FAQSection />
       <CTASection />
+      <ExitIntentPopup />
     </>
   );
 }

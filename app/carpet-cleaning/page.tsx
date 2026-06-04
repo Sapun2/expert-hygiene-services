@@ -39,6 +39,7 @@ export default function CarpetCleaningPage() {
         { title: "Carpet Sanitisation", desc: "Anti-bacterial and anti-fungal treatment for carpets in bathrooms, playrooms and high-traffic areas." },
         { title: "End of Lease Carpet Cleaning", desc: "Bond-standard carpet cleaning that meets real estate inspection requirements. Often required by lease agreements." },
       ]}
+      pageSlug="carpet-cleaning"
       ctaTitle="Book Carpet Cleaning Today"
       ctaSubtitle="Same-day service available. 20% off first clean. All Sydney suburbs covered."
     />

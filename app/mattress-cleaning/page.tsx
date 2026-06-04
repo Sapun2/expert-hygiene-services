@@ -39,6 +39,7 @@ export default function MattressCleaningPage() {
         { title: "Allergen Reduction", desc: "Reduces allergen levels for asthma and allergy sufferers. Safe for children." },
         { title: "All Mattress Types", desc: "We clean single, double, queen, king and custom mattresses. Memory foam, pocket spring, latex and hybrid." },
       ]}
+      pageSlug="mattress-cleaning"
       ctaTitle="Book Mattress Cleaning Today"
       ctaSubtitle="Sleep better from tonight. Same-day service available across all Sydney suburbs."
     />

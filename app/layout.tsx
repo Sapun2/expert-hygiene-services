@@ -20,6 +20,9 @@ import FloatingCTA from "@/components/layout/FloatingCTA";
 import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 
+// Replace GTM-XXXXXXX with your actual Google Tag Manager container ID
+const GTM_ID = "GTM-XXXXXXX";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://experthygiene.com.au"),
   title: {
@@ -33,6 +36,8 @@ export const metadata: Metadata = {
     "end of lease cleaning Sydney",
     "bond cleaning Sydney",
     "carpet cleaning Sydney",
+    "upholstery cleaning Sydney",
+    "commercial cleaning Sydney",
     "professional cleaning Sydney",
     "Expert Hygiene Services",
   ],
@@ -78,22 +83,38 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/* Google Tag Manager */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`,
+          }}
+        />
+
+        {/* LocalBusiness + CleaningService JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "LocalBusiness",
+              "@type": ["LocalBusiness", "ProfessionalService"],
               "@id": "https://experthygiene.com.au",
               name: "Expert Hygiene Services",
-              description: "Sydney's premium cleaning specialists offering curtain cleaning, end-of-lease cleaning, carpet cleaning, upholstery cleaning and more.",
+              description:
+                "Sydney's premium cleaning specialists offering curtain cleaning, end-of-lease cleaning, carpet cleaning, upholstery cleaning, mattress cleaning, commercial cleaning, pressure washing and tile cleaning.",
               url: "https://experthygiene.com.au",
               telephone: "+61468070392",
               email: "accounts@experthygieneservices.com",
+              image: "https://experthygiene.com.au/images/hero/hero-floor-cleaning-03.jpg",
               address: {
                 "@type": "PostalAddress",
                 addressLocality: "Sydney",
                 addressRegion: "NSW",
+                postalCode: "2000",
                 addressCountry: "AU",
               },
               geo: {
@@ -101,32 +122,40 @@ export default function RootLayout({
                 latitude: -33.8688,
                 longitude: 151.2093,
               },
-              areaServed: {
-                "@type": "City",
-                name: "Sydney",
-              },
+              areaServed: [
+                { "@type": "City", name: "Sydney" },
+                { "@type": "State", name: "New South Wales" },
+              ],
               aggregateRating: {
                 "@type": "AggregateRating",
                 ratingValue: "4.9",
                 reviewCount: "120",
                 bestRating: "5",
+                worstRating: "1",
               },
               priceRange: "$$",
+              currenciesAccepted: "AUD",
+              paymentAccepted: "Cash, Credit Card, Bank Transfer",
               openingHoursSpecification: [
                 {
                   "@type": "OpeningHoursSpecification",
-                  dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                  dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
                   opens: "07:00",
                   closes: "20:00",
                 },
               ],
               hasOfferCatalog: {
                 "@type": "OfferCatalog",
-                name: "Cleaning Services",
+                name: "Professional Cleaning Services Sydney",
                 itemListElement: [
-                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Curtain Cleaning Sydney" } },
-                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "End of Lease Cleaning Sydney" } },
-                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Carpet Cleaning Sydney" } },
+                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Curtain Cleaning Sydney", url: "https://experthygiene.com.au/curtain-cleaning" } },
+                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "End of Lease Cleaning Sydney", url: "https://experthygiene.com.au/end-of-lease-cleaning" } },
+                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Carpet Cleaning Sydney", url: "https://experthygiene.com.au/carpet-cleaning" } },
+                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Upholstery Cleaning Sydney", url: "https://experthygiene.com.au/upholstery-cleaning" } },
+                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Mattress Cleaning Sydney", url: "https://experthygiene.com.au/mattress-cleaning" } },
+                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Commercial Cleaning Sydney", url: "https://experthygiene.com.au/commercial-cleaning" } },
+                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Pressure Washing Sydney", url: "https://experthygiene.com.au/pressure-washing" } },
+                  { "@type": "Offer", itemOffered: { "@type": "Service", name: "Tile Cleaning Sydney", url: "https://experthygiene.com.au/tile-cleaning" } },
                 ],
               },
             }),
@@ -134,6 +163,16 @@ export default function RootLayout({
         />
       </head>
       <body className={`min-h-full flex flex-col text-slate-900 ${inter.variable} ${montserrat.variable} pb-[64px] lg:pb-0`}>
+        {/* GTM noscript fallback */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+
         <ConditionalLayout
           navbar={<Navbar />}
           footer={<Footer />}

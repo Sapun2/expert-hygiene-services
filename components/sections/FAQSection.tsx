@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Minus } from "lucide-react";
-import { FAQS } from "@/lib/utils";
+import { Plus, Minus, Phone } from "lucide-react";
+import Link from "next/link";
+import { FAQS, SITE_CONFIG } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
 interface FAQSectionProps {
@@ -13,8 +14,26 @@ interface FAQSectionProps {
 export default function FAQSection({ faqs = FAQS, title = "Common Questions" }: FAQSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <section className="py-24 bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       <div className="max-w-3xl mx-auto px-6 lg:px-8">
         <div className="mb-14">
           <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-3">FAQ</p>
@@ -46,6 +65,26 @@ export default function FAQSection({ faqs = FAQS, title = "Common Questions" }: 
               )}
             </div>
           ))}
+        </div>
+
+        {/* CTA below FAQs */}
+        <div className="mt-12 bg-slate-50 rounded-2xl p-8 text-center border border-slate-100">
+          <p className="font-semibold text-navy text-base mb-1">Still have questions?</p>
+          <p className="text-slate-500 text-sm mb-5">Our team replies within 2 hours — or call us now for an instant answer.</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href={SITE_CONFIG.phoneHref}
+              className="inline-flex items-center justify-center gap-2 bg-navy text-white font-bold px-6 py-3 rounded-xl hover:bg-navy/90 transition-colors text-sm"
+            >
+              <Phone size={15} /> Call {SITE_CONFIG.phone}
+            </a>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 border border-navy text-navy font-bold px-6 py-3 rounded-xl hover:bg-navy hover:text-white transition-colors text-sm"
+            >
+              Get a Free Quote →
+            </Link>
+          </div>
         </div>
       </div>
     </section>

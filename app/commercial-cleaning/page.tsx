@@ -39,6 +39,7 @@ export default function CommercialCleaningPage() {
         { title: "School & Childcare Cleaning", desc: "Safe, child-friendly cleaning for educational facilities using non-toxic, certified products." },
         { title: "Industrial & Warehouse Cleaning", desc: "Heavy-duty cleaning for factories, warehouses and industrial facilities including pressure washing and floor scrubbing." },
       ]}
+      pageSlug="commercial-cleaning"
       ctaTitle="Get a Commercial Cleaning Quote"
       ctaSubtitle="Flexible scheduling, competitive pricing, consistent quality. Sydney wide."
     />
