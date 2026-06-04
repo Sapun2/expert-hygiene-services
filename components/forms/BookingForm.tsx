@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, ArrowLeft, CheckCircle2, Loader2, Phone, Copy, ExternalLink, ClipboardList, Home, Layers, Sofa, Bed, Building2, Droplets, Grid3x3 } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight, ArrowLeft, CheckCircle2, Loader2, Phone, ClipboardList, Home, Layers, Sofa, Bed, Building2, Droplets, Grid3x3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const SERVICES = [
@@ -30,7 +29,6 @@ export default function BookingForm({ defaultService, variant = "light" }: Booki
   const [step, setStep]       = useState<Step>(hasPreset ? 2 : 1);
   const [submitting, setSubmitting] = useState(false);
   const [trackingId, setTrackingId] = useState<string | null>(null);
-  const [copied, setCopied]   = useState(false);
   const [error, setError]     = useState("");
 
   const [service,  setService]  = useState(defaultService || "");
@@ -54,16 +52,6 @@ export default function BookingForm({ defaultService, variant = "light" }: Booki
     isDark ? "text-white/50" : "text-slate-500"
   );
   const headingCls = cn("font-display font-800 text-lg mb-4", isDark ? "text-white" : "text-navy");
-
-  const trackingUrl = trackingId
-    ? `${typeof window !== "undefined" ? window.location.origin : ""}/track/${trackingId}`
-    : "";
-
-  const copyUrl = () => {
-    navigator.clipboard.writeText(trackingUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const handleSubmit = async () => {
     setSubmitting(true);
@@ -103,33 +91,8 @@ export default function BookingForm({ defaultService, variant = "light" }: Booki
           Booking Request Sent!
         </h3>
         <p className={cn("text-sm mb-6", isDark ? "text-white/60" : "text-slate-500")}>
-          We&apos;ll call you within <strong>2 hours</strong>. Track your booking below.
+          We&apos;ll call you within <strong>2 hours</strong>. Our team will be in touch shortly.
         </p>
-
-        {/* Tracking card */}
-        <div className={cn("rounded-2xl p-5 mb-5 text-left", isDark ? "bg-white/10 border border-white/20" : "bg-slate-50 border border-slate-200")}>
-          <p className={cn("text-xs font-bold uppercase tracking-widest mb-3", isDark ? "text-white/40" : "text-slate-400")}>
-            Your Booking Tracker
-          </p>
-          <div className={cn("flex items-center gap-2 p-3 rounded-xl mb-3 font-mono text-sm break-all", isDark ? "bg-white/10 text-white" : "bg-white text-slate-700 border border-slate-200")}>
-            <span className="flex-1 text-xs">{trackingUrl}</span>
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={copyUrl}
-              className={cn("flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-colors border", isDark ? "border-white/20 text-white hover:bg-white/10" : "border-slate-200 text-slate-700 hover:bg-slate-100")}
-            >
-              <Copy size={14} /> {copied ? "Copied!" : "Copy Link"}
-            </button>
-            <Link
-              href={`/track/${trackingId}`}
-              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold bg-navy text-white hover:bg-navy/90 transition-colors"
-              target="_blank"
-            >
-              <ExternalLink size={14} /> Track Booking
-            </Link>
-          </div>
-        </div>
 
         <div className={cn("rounded-xl p-4 mb-5", isDark ? "bg-gold-500/20 border border-gold-500/30" : "bg-gold-50 border border-gold-200")}>
           <p className={cn("text-sm font-bold", isDark ? "text-gold-300" : "text-gold-700")}>
