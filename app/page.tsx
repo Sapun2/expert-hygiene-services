@@ -18,8 +18,6 @@ export default function Home() {
   return (
     <>
       <Hero badge="20% Off First Service" />
-      <TrustIconBar />
-      <HowItWorks />
 
       {/* ── BOOKING FORM ── */}
       <section className="py-10 md:py-16 bg-white" id="quote">
@@ -84,6 +82,8 @@ export default function Home() {
         </div>
       </section>
 
+      <TrustIconBar />
+      <HowItWorks />
       <StatsBar />
       <ServicesGrid />
       <WhyChooseUs />
