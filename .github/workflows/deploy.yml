@@ -1,0 +1,60 @@
+name: Deploy — experthygiene.com.au
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Build & Deploy to VPS1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.VPS1_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Sync files to VPS
+        run: |
+          rsync -az --delete \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='.next/cache' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            ./ root@${{ secrets.VPS1_HOST }}:/var/www/experthygiene/
+
+      - name: Build on VPS & restart PM2
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@${{ secrets.VPS1_HOST }} "
+            set -e
+            cd /var/www/experthygiene
+            npm ci --only=production
+            npm run build
+            pm2 restart expert-hygiene
+            echo 'Deploy complete'
+          "
+
+      - name: Smoke test
+        run: |
+          sleep 5
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 https://experthygiene.com.au)
+          echo "Homepage HTTP status: $STATUS"
+          [ "$STATUS" = "200" ] || (echo "SMOKE TEST FAILED" && exit 1)
